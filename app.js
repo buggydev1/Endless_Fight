@@ -4,8 +4,12 @@ const ran = () => {
     
      return Math.random() * 100 ;
     }
-
+const randomNumber = (num) => {
+    return Math.floor(Math.random() * num); }
     
+function getNumberBetween(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+    }    
 
 class Heros {
     constructor (name, hitpoint, attack){
@@ -57,8 +61,14 @@ const hero1 = new Heros('James', 80, 50)
 // make def that will reduce defence  (if i have enought time)
 
 // array of monsters name
+const monsterNames = [
+    'Lilon','Melrge','Usag','Krubub','Thorios','Pianix','Usag','Droshu','Yerpaast',
+    'Cassueps','Calallau','Krolope','Jolssa','Draleisk','Meluchnaz','Sillsaanx','Yylpoan',
+    'Jicsharm','Runara','Hoquix','Gnoodrius','Desso','Otaud','Wifal',
+    'Pidriu','Jopire','Uapy','Wreberus','Yhippa','Pindi','Pekloast','Linntu','Sarpo',
+]
 
-
+const monsterWave = []
 
 //class for monsters
 class Monsters {
@@ -70,8 +80,11 @@ class Monsters {
     }     
 
     genMonster(){
-        //pull from array of name
-        //function to assign random stats
+        let monster = new Monsters(this.name = monsterNames[randomNumber(monsterNames.length - 1)], 
+        this.hitpoint = getNumberBetween (250, 800),
+        this.attack = getNumberBetween(25, 80)); 
+        monsterWave.push(monster);
+        console.log("A new foe has showed itself")
     }
     basicMonsterAttack(target){
         if (this.baseHitChance > ran() && ran() + this.baseCritChance > 100 ) {
@@ -92,7 +105,8 @@ const testMonster1 = new Monsters('ah', 500, 5)
 // make an array of monster for the story and random 
 // same stats but different funchtions
 
-hero1.basicPlayerAttack(testMonster1)
-testMonster1.basicMonsterAttack(hero1)
-console.log(hero1, testMonster1)
-
+// hero1.basicPlayerAttack(testMonster1)
+// testMonster1.basicMonsterAttack(hero1)
+// console.log(hero1, testMonster1)
+testMonster1.genMonster()
+console.log(monsterWave)
