@@ -1,6 +1,18 @@
+// Dom Vars
+let heroHealth = document.getElementById("hero_health");
+const hero1AttackButton = document.getElementById("heroAtk");
+const secondWindButton = document.getElementById("second_wind"); 
+const doubleHitButton = document.getElementById("double_hit");
+const mageHealth = document.getElementById("mage_health");
+const mageAtteckButton = document.getElementById("mageAtk")
+const fireballButton = document.getElementById("fireball");
+const iceBoltButton = document.getElementById("ice");
+const magicboltButton = document.getElementById("Magicbolt");
+const heroUi = document.getElementById("hero");
+const mageUi = document.getElementById("mage");
 //score
 let killList = 0;
-
+let heroprotect = false
 // Number gens
 const ran = () => {
     
@@ -40,9 +52,11 @@ class Heros {
 }
 
 class Fighter extends Heros {
-    constructor (){
+    constructor (name, hitpoint){
+        super(name, hitpoint)
         this.baseCritChance = 30
         this.attack = 50
+        this.mana = 50
     }
 
     doubleHit(target){
@@ -68,19 +82,22 @@ class Fighter extends Heros {
 }
 
 class Mage extends Heros {
-    constructor (){
+    constructor (name, hitpoint){
+        super(name, hitpoint)
+        
         this.attack = 10
+        this.mana = 150
     }
     fireBall(target) {
-        dam = 100
-        if( this.mana <= 10 && target.weakness ===  fire){
+        let dam = 100
+        if( this.mana >= 10 && target.weakness ===  'fire'){
             target.hitpoint -= dam * 2;
             this.mana -= 10; 
-        }else if (this.mana <= 10 && target.res === fire){
+        }else if (this.mana >= 10 && target.res === 'fire'){
             target.hitpoint -= dam % 2
             console.log("Doesn't seem to be doing")
         } 
-        else if (this.mana <= 10 ){
+        else if (this.mana >= 10 ){
             this.mana -= 10; 
             target.hitpoint -= dam
         }
@@ -89,11 +106,11 @@ class Mage extends Heros {
         }
     }
     iceBolt(target) {
-        dam = 100
-        if( this.mana <= 10 && target.weakness ===  ice){
+       let dam = 100
+        if( this.mana <= 10 && target.weakness ===  'ice'){
             this.mana -= 10; 
             target.hitpoint -= dam * 2;
-        }else if (this.mana <= 10 && target.res === ice){
+        }else if (this.mana <= 10 && target.res === 'ice'){
             target.hitpoint -= dam % 2
             console.log("Doesn't seem to be doing")
         } 
@@ -106,7 +123,7 @@ class Mage extends Heros {
         }
     }
     Magicbolt(target) {
-        dam = 150
+        let dam = 150
         if( this.mana <= 10){
             this.mana -= 10; 
             target.hitpoint -= dam; 
@@ -122,10 +139,12 @@ class Mage extends Heros {
 
 
 
-
-const hero1 = new Heros('James', 80, 50)
 // ATk, HP, maybe magic stats  
 // make def that will reduce defence  (if i have enought time)
+const hero1 = new Fighter('James', 500)
+
+const mage = new Mage('Nia',300)
+
 
 // array of monsters name
 const monsterNames = [
@@ -145,6 +164,7 @@ class Monsters {
         this.attack = attack
         this.baseHitChance = 50
         this.def = 10
+        this.res = "none"
     }     
 
     genMonster(){
@@ -177,9 +197,13 @@ class Monsters {
 
 class Spider extends Monsters {
     constructor () {
-    this.weakness = fire
-    this.res = ice
+    this.weakness = "fire"
+    this.res = "ice"
     }
+    web (){
+
+    }    
+
 }
 
 const testMonster1 = new Monsters('ah', 500, 5)
@@ -189,7 +213,100 @@ const testMonster1 = new Monsters('ah', 500, 5)
 // hero1.basicPlayerAttack(testMonster1)
 // testMonster1.basicMonsterAttack(hero1)
 // console.log(hero1, testMonster1)
-testMonster1.genMonster()
+// testMonster1.genMonster()
 console.log(monsterWave)
 const monster1 = new Monsters("Onto", 500, 10)
 
+// turn
+
+let heroTurn = true;
+let playturn = true;
+let gamerun = true ;
+let mageTurn = false;
+const passHeroTurn = () => {
+    //make mage button appears , and make heros buttons disappear
+    heroUi.style.visibility = "hidden";
+    mageUi.style.visibility = "visible";
+}
+const passMageTurn = () => {
+    // make Mage buttons disappear and start monster's turn
+    mageTurn = false;
+    mageUi.style.visibility = "hidden"
+    monsterAct()   
+}
+
+const heroAtk = () => {
+    hero1.basicPlayerAttack(monster1)
+    heroTurn = false
+    passHeroTurn()
+    mageTurn =true 
+    console.log("I work")
+}
+const heroSec = () => {
+    hero1.secondWind();
+    passHeroTurn();
+}
+const heroDouble =() => {
+    hero1.doubleHit(monster1);
+    passHeroTurn();
+}
+const mageAtk = () => {
+    mage.basicPlayerAttack(monster1);
+    passMageTurn();
+}
+const mageFireball = () => {
+    mage.fireBall(monster1)
+    passMageTurn();
+}
+const mageIce = () => {
+    mage.iceBolt(monster1);
+    passMageTurn
+}
+
+
+// const monsterTarget = () =>{
+//     if(hero)
+// }
+
+const monsterAct = () => {
+     if( monster1.hitpoint <= 0){
+        if (getNumberBetween(1,2) === 1){
+        monster1.basicMonsterAttack(hero1)
+        console.log("hero")
+        } else{ 
+        monster1.basicMonsterAttack(mage)
+        console.log("mage")
+        }
+    } else{
+        monster1.genMonster
+    }
+    heroTurn =true
+    mageHealth.value = mage.hitpoint;
+    heroHealth.value = hero1.hitpoint;
+    playerAlive()
+    
+}
+const playerAlive = () => {
+    if (hero1.hitpoint <= 0 && mage.hitpoint <= 0 ){
+        console.log("you Die")
+    } else {
+        
+        heroUi.style.visibility = "visible"
+    }
+
+}
+
+
+//check player is still alive 
+// if no, end game and reset
+// if yes start round 
+
+// Event listioners
+// Hero 
+hero1AttackButton.addEventListener("click", heroAtk)
+secondWindButton.addEventListener('click', heroSec)
+doubleHitButton.addEventListener('click', heroDouble)
+//Mage
+mageAtteckButton.addEventListener("click", mageAtk)
+fireballButton.addEventListener('click', mageFireball)
+iceBoltButton.addEventListener('click', mageIce)
