@@ -1,5 +1,5 @@
 # Endless_Fight
-Endless Fight, a turn base boss run game where you play  as the cat-Man James and the Mage name Nia. 
+Endless Fight, a turn base boss run game where you play  as the cat-Man James and a Mage name Nia. 
 
 ## Project Link
 ### https://buggydev1.github.io/Endless_Fight/
@@ -7,7 +7,7 @@ Endless Fight, a turn base boss run game where you play  as the cat-Man James an
 
 ## Contributors
 * **Tyree Harper** 
-
+Cancel Changes
 
 ## Technologies Used
 * [Node.js](https://nodejs.org/en/) - Runtime environment
@@ -25,7 +25,7 @@ Endless Fight, a turn base boss run game where you play  as the cat-Man James an
 #### Game Features
 * Player has two heros to control.
 * Heros have a list of skills to pick from
-* Endless amount of boss to fight.
+* Endless amount of bosses to fight.
 
 
 #### Wireframing:
