@@ -16,6 +16,7 @@ Endless Fight, a turn base boss run game where you play  as the cat-Man James an
 * Google Chrome https://www.google.com/chrome/ 
 * Additional Tools: 
   * [Github](https://github.com/) - Version control
+  * [OpenGameArt](https://opengameart.org/) = For asserts
     
    
 ## Our Process
