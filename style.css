@@ -31,14 +31,18 @@ body{
     visibility: visible;
 }
 
-header{   
+#nia{
+    display: flex;
+    align-self: end;   
 }
 
 #center{
     display: flex;
     background-color: hotpink;
     grid-area: 3 / 1 / 4 / 2;
-
+    height: 50vh;
+    background-image: url(img/country-platform-back.png);
+    background-size: cover;
 }
 
 progress{
@@ -50,8 +54,12 @@ progress{
     height: 100%;
     
   }
-img {
-}
+#log{
+    width: 100vw;
+    height: 5vw;
+    border: 2px solid black;
+    overflow: scroll;
+  }
 .row {
     display: flex;
 }
@@ -59,7 +67,9 @@ img {
 #bottom{
     grid-area: 4 / 1 / 5 / 2;
     align-items: baseline;
-
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
     background-color: blue;
 }   
 .info{
@@ -77,4 +87,15 @@ img {
 background-color: green;
 height: 30%;
 width: 50%;
+}
+
+img{
+    display: flex;
+    flex-direction: row;
+  
+}
+#img_mon{
+    position: fixed;
+    left: 80%;
+    bottom: 50%;
 }

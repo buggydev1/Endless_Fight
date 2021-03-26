@@ -3,13 +3,15 @@ let heroHealth = document.getElementById("hero_health");
 const hero1AttackButton = document.getElementById("heroAtk");
 const secondWindButton = document.getElementById("second_wind"); 
 const doubleHitButton = document.getElementById("double_hit");
-const mageHealth = document.getElementById("mage_health");
+let mageHealth = document.getElementById("mage_health");
+let mageMana = document.getElementById("mana_mage")
 const mageAtteckButton = document.getElementById("mageAtk")
 const fireballButton = document.getElementById("fireball");
 const iceBoltButton = document.getElementById("ice");
 const magicboltButton = document.getElementById("Magicbolt");
 const heroUi = document.getElementById("hero");
 const mageUi = document.getElementById("mage");
+const cLog = document.getElementById('log');
 //score
 let killList = 0;
 let heroprotect = false
@@ -24,7 +26,12 @@ const randomNumber = (num) => {
     function getNumberBetween(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }    
-    
+
+const appendMassage = (massage) => {
+    let mas = document.createElement('p')
+    mas.innerText = massage
+    cLog.appendChild(mas)
+}
     // classes for heros
 class Heros {
     constructor (name, hitpoint, attack, mana){
@@ -39,14 +46,14 @@ class Heros {
 
     basicPlayerAttack(target){
         if (this.baseHitChance > ran() && ran() + this.baseCritChance > 100 ) {
-            target.hitpoint -= this.attack * 1.5;
-            console.log('Masstive hit');
+            target.hitpoint -= this.attack * 2;
+             appendMassage(this.name + ' Masstive hit dealt ' + (this.attack * 2));
         }
         else if (this.baseHitChance > Math.random()) {
-            target.hitpoint -= this.attack;
-            console.log('hit'); 
+            target.hitpoint += this.attack;
+            appendMassage(this.name + ' Hit ' + this.attack) ; 
         } else{
-            console.log('miss')
+            appendMassage(this.name + ' Missed')
         }
     }
 }
@@ -65,15 +72,16 @@ class Fighter extends Heros {
         this.basicPlayerAttack(target)
         this.mana -= 10
         } else {
-            console.log('need more mana')
+            appendMassage('need more mana' )
         }
     }
 
-    secondWind(){
-        if (this.hitpoint === 80 % 2){
-            this.hitpoint = 80 
+    secondWind(target){
+        if (this.hitpoint <= 500 % 2){
+            this.hitpoint = 500 
         } else {
-            return console.log("Not ready yet")
+            appendMassage("Not ready yet, so using basic attack")
+            this.basicPlayerAttack(target)
         }
    }
 
@@ -93,33 +101,37 @@ class Mage extends Heros {
         if( this.mana >= 10 && target.weakness ===  'fire'){
             target.hitpoint -= dam * 2;
             this.mana -= 10; 
+            appendMassage('Super effected ' + 200 + "Damage!" )
         }else if (this.mana >= 10 && target.res === 'fire'){
             target.hitpoint -= dam % 2
-            console.log("Doesn't seem to be doing")
+            appendMassage("Doesn't seem to be doing much" + 50)
         } 
         else if (this.mana >= 10 ){
             this.mana -= 10; 
             target.hitpoint -= dam
+            appendMassage("Does " + dam)
         }
         else {
-            console.log('Not enough mana')
+            appendMassage('Not enough mana')
         }
     }
     iceBolt(target) {
        let dam = 100
-        if( this.mana <= 10 && target.weakness ===  'ice'){
+        if( this.mana >= 10 && target.weakness ===  'ice'){
             this.mana -= 10; 
             target.hitpoint -= dam * 2;
-        }else if (this.mana <= 10 && target.res === 'ice'){
+            appendMassage('Super effected ' + 200 + "Damage!" )
+        }else if (this.mana >= 10 && target.res === 'ice'){
             target.hitpoint -= dam % 2
-            console.log("Doesn't seem to be doing")
+            appendMassage("Doesn't seem to be doing much" + 50)
         } 
-        else if (this.mana <= 10 ){
+        else if (this.mana >= 10 ){
             target.hitpoint -= dam
-            this.mana -= 10; 
+            this.mana -= 10;
+            appendMassage('Spell does ' + dam + ' damage' ) 
         }
         else {
-            console.log('Not enough mana')
+            appendMassage('Not enough mana')
         }
     }
     Magicbolt(target) {
@@ -128,7 +140,7 @@ class Mage extends Heros {
             this.mana -= 10; 
             target.hitpoint -= dam; 
         } else {
-            console.log ('Not enough mana')
+            appendMassage('Not enough mana')
 
         }
     }
@@ -172,18 +184,18 @@ class Monsters {
         this.hitpoint = getNumberBetween (250, 800),
         this.attack = getNumberBetween(25, 80)); 
         monsterWave.push(monster);
-        console.log("A new foe has showed itself")
+        appendMassage("A new foe has showed itself")
     }
     basicMonsterAttack(target){
         if (this.baseHitChance > ran() && ran() + this.baseCritChance > 100 ) {
             target.hitpoint -= this.attack * 1.5;
-            console.log('Masstive hit');
+            appendMassage('Masstive hit!! ' + target.name + this.attack * 1.5 );
         }
         else if (this.baseHitChance > Math.random()) {
             target.hitpoint -= this.attack;
-            console.log('hit'); 
+            appendMassage('hit ' + target.name + this.attack); 
         } else{
-            console.log('miss')
+            appendMassage('miss')
         }
     }
     defeated(){
@@ -196,29 +208,50 @@ class Monsters {
 }
 
 class Spider extends Monsters {
-    constructor () {
+    constructor (name, hitpoint, attack) {
+        super(name,hitpoint,attack)
     this.weakness = "fire"
     this.res = "ice"
     }
-    web (){
+    poison (target){
+        let hits = getNumberBetween(0,2)
+        if ( hits === 0) {
+            appendMassage('Monster miss')
+        } else if (hits === 1) {
+          heroStatusPoison = true
+          HerosetStaus = 3
+          appendMassage("James is Poisoned")
+             } else{
+                mageStatusPoison = true
+                mageSetStaus =3
+                appendMassage("Nia is Poisoned!")
+             }
 
     }    
 
 }
+monsterclasses = [Spider, Monsters, Spider, Monsters, Monsters]
+
+ const genMonster = () => {
+    let monster1 = new monsterclasses[getNumberBetween(0,4)](this.name = monsterNames[randomNumber(monsterNames.length - 1)],
+        this.hitpoint = getNumberBetween (250, 500),
+        this.attack = getNumberBetween(25, 80)); 
+        monsterWave.push(monster1);
+ }
 
 const testMonster1 = new Monsters('ah', 500, 5)
 // make an array of monster for the story and random 
 // same stats but different funchtions
 
-// hero1.basicPlayerAttack(testMonster1)
-// testMonster1.basicMonsterAttack(hero1)
-// console.log(hero1, testMonster1)
-// testMonster1.genMonster()
+
 console.log(monsterWave)
 const monster1 = new Monsters("Onto", 500, 10)
 
 // turn
-
+let heroStatusPoison = false
+let HerosetStaus = 0
+let mageSetStaus = 0
+let mageStatusPoison = false
 let heroTurn = true;
 let playturn = true;
 let gamerun = true ;
@@ -236,67 +269,88 @@ const passMageTurn = () => {
 }
 
 const heroAtk = () => {
-    hero1.basicPlayerAttack(monster1)
+    hero1.basicPlayerAttack(monsterWave[0])
     heroTurn = false
     passHeroTurn()
     mageTurn =true 
     console.log("I work")
 }
 const heroSec = () => {
-    hero1.secondWind();
+    hero1.secondWind(monsterWave[0]);
     passHeroTurn();
 }
 const heroDouble =() => {
-    hero1.doubleHit(monster1);
+    hero1.doubleHit(monsterWave[0]);
     passHeroTurn();
 }
 const mageAtk = () => {
-    mage.basicPlayerAttack(monster1);
+    mage.basicPlayerAttack(monsterWave[0]);
     passMageTurn();
 }
 const mageFireball = () => {
-    mage.fireBall(monster1)
+    mage.fireBall(monsterWave[0])
     passMageTurn();
 }
 const mageIce = () => {
-    mage.iceBolt(monster1);
-    passMageTurn
+    mage.iceBolt(monsterWave[0]);
+    passMageTurn();
+}
+const mageBolt = () => {
+    mage.Magicbolt(monsterWave[0]);
+    passMageTurn()
 }
 
 
-// const monsterTarget = () =>{
-//     if(hero)
-// }
 
 const monsterAct = () => {
-     if( monster1.hitpoint <= 0){
-        if (getNumberBetween(1,2) === 1){
-        monster1.basicMonsterAttack(hero1)
-        console.log("hero")
+     if( monsterWave[0].hitpoint >= 0){
+            if (getNumberBetween(1,2) === 1){
+            monsterWave[0].basicMonsterAttack(hero1)
+            
         } else{ 
-        monster1.basicMonsterAttack(mage)
-        console.log("mage")
+            monster1.basicMonsterAttack(mage)
+            
         }
     } else{
-        monster1.genMonster
+        monsterWave.shift()
+        genMonster()
+        killList += 1
+        mage.hitpoint = 300;
+        hero1.hitpoint = 500;
+        mage.mana = 150
+        appendMassage("Another Foe Has Shown Itself")
     }
     heroTurn =true
     mageHealth.value = mage.hitpoint;
     heroHealth.value = hero1.hitpoint;
+    // mageMana.value = mage.mana;
     playerAlive()
     
 }
 const playerAlive = () => {
-    if (hero1.hitpoint <= 0 && mage.hitpoint <= 0 ){
-        console.log("you Die")
-    } else {
-        
+    if (heroStatusPoison === true && HerosetStaus > 0){
+        hero1.hitpoint -= 10
+        appendMassage ("You are poison");
+        heroUi.style.visibility = "visible";
+    }else if (mageSetStaus < 0 && mageStatusPoison === true){
+        mage.hitpoint -=10
+        appendMassage ("Mage is poison")
+        heroUi.style.visibility = "visible";
+    }else if (hero1.hitpoint >= 0 && mage.hitpoint >= 0 ) {
+
         heroUi.style.visibility = "visible"
+    } else { 
+        if (killList >= 5) {
+            alert("Rest at easy! You might be dead, but you have pushed back monsters for many years to come.")
+
+        } else{
+            alert("You have failed to push the monsters far enough!")
+        } 
     }
 
 }
 
-
+genMonster()
 //check player is still alive 
 // if no, end game and reset
 // if yes start round 
@@ -310,3 +364,4 @@ doubleHitButton.addEventListener('click', heroDouble)
 mageAtteckButton.addEventListener("click", mageAtk)
 fireballButton.addEventListener('click', mageFireball)
 iceBoltButton.addEventListener('click', mageIce)
+magicboltButton.addEventListener('click', mageBolt)
