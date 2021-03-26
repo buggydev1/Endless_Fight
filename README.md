@@ -43,7 +43,7 @@ Endless Fight, a turn base boss run game where you play  as the cat-Man James an
 *Fixing Heath/Mana Bars
 *Add more monster types
 *Add music
-*Add sound affevts and animate the actions
+*Add sound effects and animate the actions
 *Make the turn function more moduale.
 
 
