@@ -1,5 +1,5 @@
 # Endless_Fight
-Endless Fight, a turn base boss run game where you play  as the cat-mmn James and the Mage name Nia. 
+Endless Fight, a turn base boss run game where you play  as the cat-Man James and the Mage name Nia. 
 
 ## Project Link
 ### https://buggydev1.github.io/Endless_Fight/
@@ -19,6 +19,7 @@ Endless Fight, a turn base boss run game where you play  as the cat-mmn James an
     
    
 ## Our Process
+*I growed with a love go turn based RPG games and so I wanted to make My own.
 
 #### Game Features
 * Player has two heros to control.
@@ -27,11 +28,13 @@ Endless Fight, a turn base boss run game where you play  as the cat-mmn James an
 
 
 #### Wireframing:
-![wireframe](https://imgur.com/58jM6JP "Wireframe")
+![wireframe](https://i.imgur.com/58jM6JP.pngg)
+
+
 
 
 #### Design Mockups:
-![homepage mockup](https://imgur.com/4r4Te9D)
+![homepage mockup](https://i.imgur.com/4r4Te9D.png)
 
 
 ## Challenges/Future Goals
