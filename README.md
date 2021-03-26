@@ -29,8 +29,6 @@ Endless Fight, a turn base boss run game where you play  as the cat-mmn James an
 #### Wireframing:
 ![wireframe](https://imgur.com/58jM6JP "Wireframe")
 
-#### Visual Brainstorming:
-![moodboard](https://i.imgur.com/hiojRYP.jpg "moodboard")
 
 #### Design Mockups:
 ![homepage mockup](https://imgur.com/4r4Te9D "Battle")
